@@ -8,11 +8,10 @@ $(document).ready(function() {
     let searchWord = $('#search-word').val();
     $('#search-word').val('');
     const url = `http://api.giphy.com/v1/gifs/search?q=${searchWord}&api_key=${process.env.GIPHY_KEY}`;
-
+    
     request.onreadystatechange = function() {
       if (this.readyState === 4 && this.status === 200) {
         const response = JSON.parse(this.responseText);
-        console.log(response);
         addGif(response);
       }
     };
@@ -24,4 +23,24 @@ $(document).ready(function() {
       $('#output').prepend('<img src="' + response.data[0].images.original.url + '">');
     }
   });
+
+  let nextRequest = new XMLHttpRequest();
+  const nextUrl = `http://api.giphy.com/v1/gifs/trending?api_key=${process.env.GIPHY_KEY}`;
+
+  nextRequest.onreadystatechange = function() {
+    if (this.readyState === 4 && this.status === 200) {
+      const response = JSON.parse(this.responseText);
+      trendGif(response);
+    }
+  };
+
+  nextRequest.open("GET", nextUrl, true);
+  nextRequest.send();
+
+  function trendGif(response) {
+    for(let i=0; i < 4; i++) {
+      $("#trending").prepend('<img src="' + response.data[i].images.original.url + '">');
+      console.log(i);
+    }
+  }
 });
