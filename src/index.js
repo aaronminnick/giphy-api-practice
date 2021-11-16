@@ -7,7 +7,7 @@ $(document).ready(function() {
 
     let searchWord = $('#search-word').val();
     $('#search-word').val('');
-    const url = `http://api.giphy.com/v1/gifs/search?q=${searchWord}&api_key=${process.env.GIPHY_KEY}`;
+    const url = `https://api.giphy.com/v1/gifs/search?q=${searchWord}&api_key=${process.env.GIPHY_KEY}`;
     
     request.onreadystatechange = function() {
       if (this.readyState === 4 && this.status === 200) {
@@ -25,7 +25,7 @@ $(document).ready(function() {
   });
 
   let nextRequest = new XMLHttpRequest();
-  const nextUrl = `http://api.giphy.com/v1/gifs/trending?api_key=${process.env.GIPHY_KEY}`;
+  const nextUrl = `https://api.giphy.com/v1/gifs/trending?api_key=${process.env.GIPHY_KEY}`;
 
   nextRequest.onreadystatechange = function() {
     if (this.readyState === 4 && this.status === 200) {
@@ -40,7 +40,6 @@ $(document).ready(function() {
   function trendGif(response) {
     for(let i=0; i < 4; i++) {
       $("#trending").prepend('<img src="' + response.data[i].images.original.url + '">');
-      console.log(i);
     }
   }
 });
